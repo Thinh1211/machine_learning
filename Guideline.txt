@@ -1,0 +1,29 @@
+1 thư viện  
+import numpy as np: Nhập thư viện NumPy để hỗ trợ tính toán số học và đại số tuyến tính.
+import pandas as pd: Nhập thư viện Pandas để làm việc với dữ liệu dạng bảng.
+
+2 đọc dữ liệu và xử lý dữ liêu
+dt = pd.read_csv("/kaggle/input/mushroom-classification/mushrooms.csv"): Đọc dữ liệu từ tệp CSV "mushrooms.csv" và lưu vào biến dt.
+print(dt.shape): In ra kích thước của dữ liệu, tức là số dòng và số cột.
+dt.head(): In ra 5 dòng đầu tiên của dữ liệu để xem qua.
+ttype = {"p":0, "e":1}: Tạo một từ điển ttype để ánh xạ các giá trị "p" và "e" sang 0 và 1.
+dt["class"] = [ttype[item] for item in 
+dt["class"]]: Thay thế các giá trị trong cột "class" của dt bằng các giá trị tương ứng trong từ điển ttype.
+dt_1 = pd.get_dummies(dt): Tạo bản sao mới của dt và chuyển đổi các biến phân loại thành các biến giả (dummy variables) bằng cách sử dụng phương thức get_dummies của Pandas.
+print(dt_1.shape): In ra kích thước của dt_1.
+dt_1.head(): In ra 5 dòng đầu tiên của dt_1.
+X, y = dt_1.drop(["class"], axis=1), dt_1["class"]: Tách dt_1 thành hai phần riêng biệt là ma trận đặc trưng X (loại bỏ cột "class") và vector mục tiêu y (chỉ chứa cột "class").
+from sklearn.model_selection import train_test_split: Nhập hàm train_test_split từ thư viện Scikit-learn để chia dữ liệu thành tập huấn luyện và tập kiểm tra.
+X_tr, X_ts, y_tr, y_ts = train_test_split(X, y, test_size=0.33, random_state=42): Chia dữ liệu thành tập huấn luyện (X_tr, y_tr) và tập kiểm tra (X_ts, y_ts) với tỷ lệ 0.33(có thể thay đổi được) và random_state=42 (cũng có thể thay đổi được) để đảm bảo kết quả phân chia nhất quán.
+
+3 xây dựng mô hình
+class logistic_regression:: Định nghĩa một lớp logistic_regression để triển khai mô hình hồi quy logistic
+Các phương thức và thuộc tính của lớp logistic_regression được định nghĩa trong các đoạn mã sau cho việc huấn luyện, dự đoán và tính toán độ lỗi của mô hình hồi quy logistic.
+ob = logistic_regression(): Tạo một đối tượng từ lớp logistic_regression.
+ob.train(X_tr, y_tr): Huấn luyện mô hình hồi quy logistic bằng phương thức train của đối tượng ob.
+y_pred = ob.predict(X_ts): Dự đoán nhãn của tập kiểm tra X_ts bằng phương thức predict của đối tượng ob.
+
+4 Hiển thị kết quả 
+Các đoạn mã tiếp theo liên quan đến việc trực quan hóa kết quả dự đoán bằng ma trận nhầm lẫn (confusion matrix) và hiển thị ma trận nhầm lẫn đã chuẩn hóa
+Cuối cùng, gọi plt.show() để hiển thị đồ thị.
+
